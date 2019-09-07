@@ -21,7 +21,7 @@ Route::get('/hola', function (){
     return 'Hola!';
 })->name('saludo');
 
-Route::get('suma', function (){
+Route::get('/suma', function (){
     $a = 7;
     $b = 3;
     return $a + $b;
