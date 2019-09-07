@@ -36,4 +36,4 @@ Route::view('/inyectar', 'inject');
 Route::view('/usuarios', 'profile');
 Route::view('/panel', 'dashboard');
 
-Route::view('ejemplos', 'examples');
+Route::view('/ejemplos', 'examples');
