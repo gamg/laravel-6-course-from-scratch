@@ -81,7 +81,12 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Bienvenido a Laravel {{ $name }}<br>
+                    {{ route('saludo') }} <br>
+                    {{ Request::route()->named('saludo') }} <br>
+                    {{ route('calzado.zapato') }} <br>
+                    {{ route('calzado.casual') }} <br>
+                    {{ route('calzado.sanda') }} <br>
                 </div>
 
                 <div class="links">
