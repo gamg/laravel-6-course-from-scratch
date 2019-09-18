@@ -14,3 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/nombre', 'UserController@getName');
+Route::get('/nombre-completo', 'UserController@getNameLastName');
+Route::get('/nombre-actualizado', 'UserController@changeName');
