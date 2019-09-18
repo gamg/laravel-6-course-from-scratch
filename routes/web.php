@@ -14,3 +14,13 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/usuarios', 'UserController@allUsers');
+Route::get('/usuario', 'UserController@user');
+Route::get('/condicion', 'UserController@condition');
+Route::get('/telefonos', 'UserController@phones');
+Route::get('/otros', 'UserController@others');
+Route::get('/seleccion', 'UserController@selection');
+Route::get('/guardar', 'UserController@store');
+Route::get('/actualizar', 'UserController@update');
+Route::get('/eliminar', 'UserController@delete');
