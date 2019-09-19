@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcomtte');
+    return view('welcome');
 });
 
 /* Con query builder */
