@@ -15,6 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+/* Con query builder */
 Route::get('/usuarios', 'UserController@allUsers');
 Route::get('/usuario', 'UserController@user');
 Route::get('/condicion', 'UserController@condition');
@@ -24,3 +25,7 @@ Route::get('/seleccion', 'UserController@selection');
 Route::get('/guardar', 'UserController@store');
 Route::get('/actualizar', 'UserController@update');
 Route::get('/eliminar', 'UserController@delete');
+
+/* Con Eloquent */
+Route::get('/clientes', 'ClientController@clients');
+Route::get('/cliente', 'ClientController@client');
