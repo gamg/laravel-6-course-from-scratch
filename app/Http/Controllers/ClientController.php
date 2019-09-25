@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class ClientController extends Controller
 {
@@ -25,4 +26,110 @@ class ClientController extends Controller
         $client = User::where('last_name', 'Meza')->firstOrFail();
         return view('user', ['user' => $client]);
     }
+
+    public function store()
+    {
+        $client = new User;
+        $client->name = 'Federico II';
+        $client->last_name = 'Mendez';
+        $client->email = 'feder@gmail.com';
+        $client->phone = '+789654214587';
+        $client->password = Hash::make('secret123');
+        $client->save();
+        return 'Ok';
+    }
+
+    public function massAssignment()
+    {
+        $data = [
+            'name' => 'Sofia II',
+            'last_name' => 'Lugo',
+            'email' => 'Sofia77@gmail.com',
+            'phone' => '+1236547897',
+            'password' => Hash::make('sofia123'),
+        ];
+
+        $client = User::create($data);
+
+        return 'OK... El usuario '.$client->name.' ha sido creado correctamente.';
+    }
+
+    public function massAssignmentFill()
+    {
+        $data = [
+            'name' => 'Carlos',
+            'last_name' => 'Sans',
+            'email' => 'carlos22@gmail.com',
+            'phone' => '+12345454577',
+            'password' => Hash::make('carlos123'),
+        ];
+
+        $client = new User;
+        $client->fill($data);
+        $client->save();
+
+        return 'OK. El cliente '.$client->name.' ha sido almacenado.';
+    }
+
+    public function actualizar()
+    {
+        $data = [
+            'name' => 'Charles',
+            'last_name' => 'Carpum',
+            'email' => 'testing422@gmail.com',
+        ];
+
+        $client = User::find(11);
+
+        //$client->last_name = 'Moria';
+        //$client->phone = '+58796666661';
+
+        $client->fill($data);
+        $client->save();
+
+        return 'Ok, registro actualizado!';
+    }
+
+    public function update()
+    {
+        User::where('id', 9)->update(['name' => 'Hans']);
+
+        User::where('last_name', 'Lugo')->update([
+            'last_name' => 'Marquez',
+            'phone' => '+441111111111'
+        ]);
+
+        return 'Ok.';
+    }
+
+    public function delete()
+    {
+        /*$client = User::find(29);
+        $client->delete();*/
+
+        User::destroy(21,22,23);
+
+        User::where('name', 'Otis')->delete();
+
+        return 'Eliminado correctamente.';
+    }
+
+    public function testingForm()
+    {
+        return 'Ok.';
+    }
+
+    public function saveFromForm(Request $request)
+    {
+        User::create([
+            'name' => $request->name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'password' => Hash::make($request->password),
+        ]);
+
+        return 'Datos almacenados!';
+    }
+
 }
