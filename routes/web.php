@@ -35,15 +35,3 @@ Route::get('/cliente/fill', 'ClientController@massAssignmentFill');
 Route::get('/cliente/actualizar', 'ClientController@actualizar');
 Route::get('/cliente/editar', 'ClientController@update');
 Route::get('/cliente/eliminar', 'ClientController@delete');
-
-/* guardar en BD desde un formulario */
-Route::get('/form', function() {
-    return view('form');
-});
-
-Route::put('/form', 'ClientController@testingForm')->name('testform');
-
-Route::view('/guardar-datos', 'save_data');
-Route::post('/guardar-datos', 'ClientController@saveFromForm')->name('save');
-Route::view('/almacenar', 'store');
-Route::post('/almacenar', 'ClientController@clientStore')->name('client.store');

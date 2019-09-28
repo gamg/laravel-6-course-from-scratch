@@ -13,8 +13,17 @@ class ClientController extends Controller
     public function clients()
     {
         //$clients = User::all();
-        $clients = User::where('email_verified_at', '<>', null)
-            ->orderBy('name', 'asc')->take(7)->get();
+
+        /*$clients = User::where('email_verified_at', '<>', null)
+            ->orderBy('name', 'asc')->take(7)->get();*/
+
+        $clients = User::paginate(7);
+
+        //$clients = User::simplePaginate(7);
+
+        /*$clients = User::where('email_verified_at', '<>', null)
+            ->orderBy('name', 'asc')->paginate(5);*/
+
         return view('data', ['users' => $clients]);
     }
 
@@ -114,58 +123,5 @@ class ClientController extends Controller
         User::where('name', 'Otis')->delete();
 
         return 'Eliminado correctamente.';
-    }
-
-    public function testingForm()
-    {
-        return 'Ok.';
-    }
-
-    public function saveFromForm(Request $request)
-    {
-        $messages = [
-            'required' => 'El campo :attribute debe ser obligatorio',
-            'email' => 'El correo electrónico no es válido',
-            'max' => 'El campo :attribute no debe tener mas de :max caracteres'
-        ];
-
-        /*$request->validate([
-            'name' => 'required|max:100',
-            'last_name' => 'required|max:100',
-            'email' => 'required|email:filter|unique:users',
-            'phone' => 'required|max:40',
-            'password' => ['required','min:8','confirmed']
-        ], $messages);*/
-
-        Validator::make($request->all(), [
-            'name' => 'required|max:100',
-            'last_name' => 'required|max:100',
-            'email' => 'required|email:filter|unique:users',
-            'phone' => 'required|max:40',
-            'password' => ['required','min:8','confirmed']
-        ], $messages)->validate();
-
-        User::create([
-            'name' => $request->name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'password' => Hash::make($request->password),
-        ]);
-
-        return 'Datos almacenados!';
-    }
-
-    public function clientStore(ClientStore $request)
-    {
-        User::create([
-            'name' => $request->name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'password' => Hash::make($request->password),
-        ]);
-
-        return 'Datos almacenados correctamente!';
     }
 }
