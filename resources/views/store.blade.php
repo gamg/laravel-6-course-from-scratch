@@ -8,7 +8,7 @@
     </div>
 @endif
 
-<form method="POST" action="{{ route('save') }}">
+<form method="POST" action="{{ route('client.store') }}">
     @csrf
     <input type="text" name="name" placeholder="Ingresa tu nombre"><br>
     <input type="text" name="last_name" placeholder="Ingresa tu apellido"><br>

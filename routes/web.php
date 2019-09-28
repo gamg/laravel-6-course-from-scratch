@@ -45,3 +45,5 @@ Route::put('/form', 'ClientController@testingForm')->name('testform');
 
 Route::view('/guardar-datos', 'save_data');
 Route::post('/guardar-datos', 'ClientController@saveFromForm')->name('save');
+Route::view('/almacenar', 'store');
+Route::post('/almacenar', 'ClientController@clientStore')->name('client.store');

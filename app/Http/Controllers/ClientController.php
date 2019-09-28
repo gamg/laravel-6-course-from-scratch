@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\ClientStore;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class ClientController extends Controller
 {
@@ -121,6 +123,28 @@ class ClientController extends Controller
 
     public function saveFromForm(Request $request)
     {
+        $messages = [
+            'required' => 'El campo :attribute debe ser obligatorio',
+            'email' => 'El correo electrónico no es válido',
+            'max' => 'El campo :attribute no debe tener mas de :max caracteres'
+        ];
+
+        /*$request->validate([
+            'name' => 'required|max:100',
+            'last_name' => 'required|max:100',
+            'email' => 'required|email:filter|unique:users',
+            'phone' => 'required|max:40',
+            'password' => ['required','min:8','confirmed']
+        ], $messages);*/
+
+        Validator::make($request->all(), [
+            'name' => 'required|max:100',
+            'last_name' => 'required|max:100',
+            'email' => 'required|email:filter|unique:users',
+            'phone' => 'required|max:40',
+            'password' => ['required','min:8','confirmed']
+        ], $messages)->validate();
+
         User::create([
             'name' => $request->name,
             'last_name' => $request->last_name,
@@ -132,4 +156,16 @@ class ClientController extends Controller
         return 'Datos almacenados!';
     }
 
+    public function clientStore(ClientStore $request)
+    {
+        User::create([
+            'name' => $request->name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'password' => Hash::make($request->password),
+        ]);
+
+        return 'Datos almacenados correctamente!';
+    }
 }
