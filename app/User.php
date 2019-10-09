@@ -41,4 +41,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Motorcycle');
     }
+
+    public function products()
+    {
+        return $this->belongsToMany('App\Product');
+    }
 }

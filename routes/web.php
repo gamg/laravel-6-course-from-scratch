@@ -93,3 +93,23 @@ Route::get('/producto/actualizar', function () {
 });
 
 /* To test: Many to Many */
+Route::get('/usuario/productos', function (){
+    $user = App\User::find(1);
+    return view('products')->with('user', $user);
+});
+
+Route::get('/usuario/productos-otros', function (){
+    $user = App\User::find(1);
+    $products = $user->products()->where('category_id', 9)->get();
+    foreach ($products as $product) {
+        $category = $product->category;
+    }
+    return $category->name;
+});
+
+Route::get('/producto/users', function () {
+    $product = App\Product::find(16);
+    foreach ($product->users as $user) {
+        dd($user->info->updated_at);
+    }
+});
