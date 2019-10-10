@@ -44,6 +44,6 @@ class User extends Authenticatable
 
     public function products()
     {
-        return $this->belongsToMany('App\Product');
+        return $this->belongsToMany('App\Product')->withTimestamps();
     }
 }

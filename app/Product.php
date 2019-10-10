@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    protected $fillable = ['name'];
+    protected $fillable = ['category_id', 'name'];
 
     public function category()
     {
@@ -16,5 +16,10 @@ class Product extends Model
     public function users()
     {
         return $this->belongsToMany('App\User')->as('info')->withTimestamps();
+    }
+
+    public function productModels()
+    {
+        return $this->hasMany('App\ProductModel');
     }
 }

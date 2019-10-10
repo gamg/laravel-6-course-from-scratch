@@ -113,3 +113,139 @@ Route::get('/producto/users', function () {
         dd($user->info->updated_at);
     }
 });
+
+Route::get('/save/usuarios-productos', function () {
+    $user = App\User::find(7);
+
+    //$product = App\Product::find(7);
+    //$user->products()->save($product);
+
+    //$product1 = App\Product::find(14);
+    //$product2 = App\Product::find(22);
+    //$user->products()->saveMany([$product1, $product2]);
+
+    $user->products()->create([
+        'category_id' => 6,
+        'name' => 'Lenovo XY'
+    ]);
+
+    return 'OK.';
+});
+
+Route::get('/vincular', function(){
+    $user = App\User::find(12);
+
+    //$user->products()->attach(13);
+
+    $user->products()->attach([12,10,18]);
+
+    return 'Vinculado';
+});
+
+Route::get('/desvincular', function(){
+    $user = App\User::find(12);
+
+    //$user->products()->detach(12);
+
+    $user->products()->detach([13, 10]);
+
+    return 'Desvinculado';
+});
+
+Route::get('/sincronizar', function(){
+    //$user = App\User::find(7);
+    //$user->products()->sync([7,14,36]);
+
+    //$product = App\Product::find(7);
+    //$product->users()->sync([5]);
+
+    $product = App\Product::find(16);
+    $product->users()->syncWithoutDetaching([5]);
+
+    $product->users()->toggle([5,4,12,9]);
+
+    return 'Sincronizado.';
+});
+
+/* Has One Through */
+Route::get('/datos-desde-moto', function () {
+    $motorcycle = App\Motorcycle::find(30);
+    $data = $motorcycle->userPersonalData;
+    return $data->address;
+});
+
+/* Has Many Through */
+Route::get('/datos-desde-category', function () {
+    $category = App\Category::find(8);
+    $models = $category->productModels;
+    dd($models);
+});
+
+/* Querying Relations */
+
+use Illuminate\Database\Eloquent\Builder;
+Route::get('/producto/modelos', function (){
+    $product = App\Product::find(28);
+
+    $models = $product->productModels()->where('price', '>', 100)->orWhere('price', 300)->get();
+
+    $modelsB = $product->productModels()->where(function (Builder $query){
+        return $query->where('price', '>', 100)
+                    ->orWhere('price', 300);
+    })->get();
+
+    return $modelsB[0]->description;
+});
+
+Route::get('/producto/verificar/modelos/', function(){
+    //$products = App\Product::has('productModels')->get();
+
+    $products = App\Product::whereHas('productModels', function (Builder $query) {
+        $query->where('price', '<=', 250.30);
+    })->get();
+
+    return $products[0]->name;
+});
+
+Route::get('/productos/sin-modelos/', function(){
+    //$products = App\Product::doesntHave('productModels')->get();
+
+    $products = App\Product::whereDoesntHave('productModels', function (Builder $query) {
+        $query->where('price', '<=', 250.30);
+    })->get();
+
+    return $products[0]->name;
+});
+
+Route::get('/productos/cantidad-modelos/', function(){
+    //$products = App\Product::withCount('productModels')->get();
+
+    $products = App\Product::withCount(['users', 'productModels'])->get();
+
+    return view('conteo', ['products' => $products]);
+});
+
+Route::get('/carga-perezosa', function(){
+    $products = App\Product::all();
+    return view('lazy-load', ['products' => $products]);
+});
+
+Route::get('/carga-ansiosa', function(){
+    $products = App\Product::with('category')->get();
+    return view('eager-load', ['products' => $products]);
+});
+
+Route::get('/carga-ansiosa-anidada', function(){
+    $categories = App\Category::with('products.users')->get();
+    return 'Anidado..';
+});
+
+Route::get('/carga-ansiosa-columnas', function(){
+    $products = App\Product::with('category:id,name')->get();
+    return view('eager-load', ['products' => $products]);
+});
+
+Route::get('/carga-ansiosa-por-defecto', function(){
+    $productModels = App\ProductModel::get();
+    return $productModels[0]->product->name;
+});
