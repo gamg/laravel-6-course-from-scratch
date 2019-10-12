@@ -14,3 +14,10 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/guardar-sesion', 'UserController@save');
+Route::get('/ver-sesion', 'UserController@show');
+Route::get('/eliminar-sesion', 'UserController@delete');
+Route::get('/datos-flash', 'UserController@flash');
+Route::get('/crear-flash', 'UserController@createFlash');
+Route::get('/mantener-flash', 'UserController@keepFlash');
