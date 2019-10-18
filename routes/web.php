@@ -41,3 +41,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/profile', function () {
     return 'Estoy en profile...';
 })->middleware('auth');
+
+Route::get('/datos-bancarios', function (){
+    return 'Tus datos bancarios...';
+})->middleware('password.confirm');
