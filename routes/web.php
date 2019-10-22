@@ -45,3 +45,9 @@ Route::get('/profile', function () {
 Route::get('/datos-bancarios', function (){
     return 'Tus datos bancarios...';
 })->middleware('password.confirm');
+
+use Illuminate\Support\Facades\App;
+Route::get('/welcome/{locale}', function ($locale) {
+    App::setLocale($locale);
+    return view('welcome');
+});
