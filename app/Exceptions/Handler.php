@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -34,6 +35,14 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+        if ($exception instanceof NotFoundHttpException) {
+            logger('URL no encontrada: '.request()->fullUrl());
+        }
+
+        if ($exception instanceof \InvalidArgumentException) {
+            logger('Vista no encontrada: '.$exception->getMessage());
+        }
+
         parent::report($exception);
     }
 
@@ -46,6 +55,14 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        /*if ($exception instanceof NotFoundHttpException) {
+            return response()->view('error');
+        }*/
+
+        if ($exception instanceof \InvalidArgumentException) {
+            return response()->view('error');
+        }
+
         return parent::render($request, $exception);
     }
 }

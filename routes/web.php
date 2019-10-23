@@ -12,5 +12,10 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcomeqqq');
+});
+
+Route::get('/errores', function (){
+    //abort(403, 'No estas autorizado!');
+    abort(403);
 });
