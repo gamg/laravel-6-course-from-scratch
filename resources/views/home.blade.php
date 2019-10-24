@@ -15,6 +15,15 @@
                     @endif
 
                     You are logged in!
+
+                    {!! Form::open(['url' => '/ejemplo']) !!}
+                        {!! Form::label('email', 'E-Mail Address') !!}
+                        {!! Form::label('email', 'E-Mail Address', ['class' => 'awesome']) !!}
+                        {!! Form::text('username') !!}
+                        {!! Form::password('password', ['class' => 'awesome']) !!}
+                        {!! Form::checkbox('name', 'value') !!}
+                        {!! Form::select('size', ['L' => 'Large', 'S' => 'Small']) !!}
+                    {!! Form::close() !!}
                 </div>
             </div>
         </div>
