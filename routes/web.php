@@ -25,9 +25,10 @@ Route::post('/product', function (){
         'description' => 'string'
     ]);
 
-    $data['user_id'] = request()->user()->id;
+    // $data['user_id'] = request()->user()->id;
+    // App\Product::create($data);
 
-    App\Product::create($data);
+    auth()->user()->product()->create($data);
 
     return redirect('/');
 })->middleware('auth');
